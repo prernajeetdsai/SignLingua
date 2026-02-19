@@ -291,7 +291,7 @@ def ask_gemini(
     """
     Gemini 2.5 Flash with RAG context + multi-turn history.
     Uses the NEW google-genai SDK (pip install google-genai).
-    Model: gemini-2.5-flash-preview-04-17  (stable preview, works on v1beta)
+    Model: gemini-2.5-flash  (stable preview, works on v1beta)
     """
     try:
         from google import genai
@@ -333,7 +333,7 @@ def ask_gemini(
         ))
 
         response = client.models.generate_content(
-            model="gemini-2.5-flash-preview-04-17",
+            model="gemini-2.5-flash",
             contents=contents,
             config=types.GenerateContentConfig(
                 system_instruction=system_prompt,
