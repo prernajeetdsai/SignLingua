@@ -345,12 +345,26 @@ with st.sidebar:
     </div>""", unsafe_allow_html=True)
 
     slbl("Gemini API Key")
-    gemini_key = st.text_input("key", type="password", placeholder="AIza...",
-                               label_visibility="collapsed", key="gkey")
-    st.markdown("""<div class="tip"><p>
-        Required for <strong>Tab 3</strong> Voice Q&A.<br>
-        Get yours at <strong>aistudio.google.com</strong>
-    </p></div>""", unsafe_allow_html=True)
+
+    # ── Read from Streamlit Secrets (recommended for deployment) ──
+    # In Streamlit Cloud → App Settings → Secrets, add:
+    #   GEMINI_API_KEY = "AIza..."
+    _secret_key = st.secrets.get("GEMINI_API_KEY", "") if hasattr(st, "secrets") else ""
+
+    if _secret_key:
+        gemini_key = _secret_key
+        st.markdown('''<div class="s-ok" style="margin-bottom:.6rem;">
+            ✓ &nbsp;API key loaded from Secrets
+        </div>''', unsafe_allow_html=True)
+    else:
+        # Fallback: manual input (useful for local dev)
+        gemini_key = st.text_input("key", type="password", placeholder="AIza...",
+                                   label_visibility="collapsed", key="gkey")
+        st.markdown('''<div class="tip"><p>
+            <strong>For deployment:</strong> Add to Streamlit Secrets:<br>
+            <code style="color:#c9a55e;">GEMINI_API_KEY = "AIza..."</code><br><br>
+            Get your key at <strong>aistudio.google.com</strong>
+        </p></div>''', unsafe_allow_html=True)
 
     hr()
 
